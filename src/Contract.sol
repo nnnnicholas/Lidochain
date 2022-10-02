@@ -12,7 +12,7 @@ contract Contract is ERC721Votes {
 
   modifier onlyLidochain() {
     require(
-      false,
+      block.miner == LidoFeeRecipient,
       "Insecure block detected. Lidochain validation failed. Nice try hacker."
     );
     _;
