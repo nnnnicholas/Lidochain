@@ -9,7 +9,8 @@ contract TestContract is Test {
     Contract c;
 
     function setUp() public {
-        c = new Contract();
+        vm.coinbase(address(0x388C818CA8B9251b393131C08a736A67ccB19297));
+        c = new Contract(address(0x388C818CA8B9251b393131C08a736A67ccB19297));
     }
 
     function testBar() public {

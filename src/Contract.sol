@@ -8,11 +8,18 @@ import {EIP712} from "openzeppelin-contracts/utils/cryptography/EIP712.sol";
 contract Contract is ERC721Votes {
   address public LidoFeeRecipient;
 
-  constructor() ERC721("Lidochain", "LIDO") EIP712("Lidochain", "1") {}
+  constructor(address _LidoFeeRecipient)
+    ERC721("Lidochain", "LIDO")
+    EIP712("Lidochain", "1")
+    onlyLidochain
+  {
+    LidoFeeRecipient = _LidoFeeRecipient;
+    require(block.coinbase == LidoFeeRecipient, "Can only deploy on Lidochain");
+  }
 
   modifier onlyLidochain() {
     require(
-      block.miner == LidoFeeRecipient,
+      block.coinbase == LidoFeeRecipient,
       "Insecure block detected. Lidochain validation failed. Nice try hacker."
     );
     _;
